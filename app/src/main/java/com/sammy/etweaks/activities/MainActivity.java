@@ -40,7 +40,6 @@ import com.sammy.etweaks.fragments.kernel.GPUFragment;
 import com.sammy.etweaks.services.profile.Tile;
 import com.sammy.etweaks.utils.AppSettings;
 import com.sammy.etweaks.utils.Device;
-import com.sammy.etweaks.utils.Log;
 import com.sammy.etweaks.utils.Utils;
 import com.sammy.etweaks.utils.kernel.battery.Battery;
 import com.sammy.etweaks.utils.kernel.bus.VoltageCam;
@@ -70,14 +69,11 @@ import com.sammy.etweaks.utils.kernel.boefflawakelock.BoefflaWakelock;
 import com.sammy.etweaks.utils.root.RootUtils;
 
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.security.ProviderInstaller;
 
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.io.*;
+import java.io.IOException;
 
 /**
  * Created by willi on 14.04.16.
