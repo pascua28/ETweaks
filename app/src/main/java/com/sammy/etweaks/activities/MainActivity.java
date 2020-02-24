@@ -435,7 +435,7 @@ public class MainActivity extends BaseActivity {
             }
 
             // Initialize Google Ads
-            MobileAds.initialize(activity, "ca-app-pub-9127950927944515/4635688668");
+            MobileAds.initialize(activity, "ca-app-pub-9127950927944515~8792563705");
 
             // Execute another AsyncTask for license checking
             new LoadingTask(activity).execute();
