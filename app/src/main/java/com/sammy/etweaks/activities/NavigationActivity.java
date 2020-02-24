@@ -75,6 +75,7 @@ import com.sammy.etweaks.fragments.kernel.WakeFragment;
 import com.sammy.etweaks.fragments.other.AboutFragment;
 import com.sammy.etweaks.fragments.other.DonationFragment;
 import com.sammy.etweaks.fragments.other.SettingsFragment;
+import com.sammy.etweaks.fragments.recyclerview.RecyclerViewFragment;
 import com.sammy.etweaks.fragments.statistics.DeviceFragment;
 import com.sammy.etweaks.fragments.statistics.InputsFragment;
 import com.sammy.etweaks.fragments.statistics.MemoryFragment;
@@ -92,6 +93,8 @@ import com.sammy.etweaks.utils.AppSettings;
 import com.sammy.etweaks.utils.Device;
 import com.sammy.etweaks.utils.Log;
 import com.sammy.etweaks.utils.Utils;
+import com.sammy.etweaks.utils.ViewUtils;
+import com.sammy.etweaks.utils.WebpageReader;
 import com.sammy.etweaks.utils.kernel.battery.Battery;
 import com.sammy.etweaks.utils.kernel.bus.VoltageCam;
 import com.sammy.etweaks.utils.kernel.bus.VoltageDisp;
@@ -118,6 +121,7 @@ import com.sammy.etweaks.utils.kernel.wakelock.Wakelock;
 import com.sammy.etweaks.utils.root.RootUtils;
 import com.sammy.etweaks.utils.tools.Backup;
 import com.sammy.etweaks.utils.tools.SupportedDownloads;
+import com.sammy.etweaks.views.AdLayout;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -140,6 +144,8 @@ public class NavigationActivity extends BaseActivity
     private long mLastTimeBackbuttonPressed;
 
     private int mSelection;
+    private WebpageReader mAdsFetcher;
+    private boolean mFetchingAds;
 
     @Override
     protected boolean setStatusBarColor() {
@@ -316,6 +322,7 @@ public class NavigationActivity extends BaseActivity
 
         if (savedInstanceState != null) {
             mSelection = savedInstanceState.getInt(INTENT_SECTION);
+            mFetchingAds = savedInstanceState.getBoolean("fetching_ads");
         }
 
         appendFragments(false);
@@ -338,6 +345,28 @@ public class NavigationActivity extends BaseActivity
 
         if (AppSettings.isDataSharing(this)) {
             startService(new Intent(this, Monitor.class));
+        }
+
+        if (!mFetchingAds) {
+            mFetchingAds = true;
+            mAdsFetcher = new WebpageReader(this, new WebpageReader.WebpageListener() {
+                @Override
+                public void onSuccess(String url, String raw, CharSequence html) {
+                    AdLayout.GHAds ghAds = new AdLayout.GHAds(raw);
+                    if (ghAds.readable()) {
+                        ghAds.cache(NavigationActivity.this);
+                        Fragment fragment = getFragment(mSelection);
+                        if (fragment instanceof RecyclerViewFragment) {
+                            ((RecyclerViewFragment) fragment).ghAdReady();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(String url) {
+                }
+            });
+            mAdsFetcher.get(AdLayout.ADS_FETCH);
         }
     }
 
@@ -478,6 +507,9 @@ public class NavigationActivity extends BaseActivity
             }
         }
         fragmentTransaction.commitAllowingStateLoss();
+	if (mAdsFetcher != null) {
+            mAdsFetcher.cancel();
+        }
         RootUtils.closeSU();
     }
 
@@ -487,6 +519,7 @@ public class NavigationActivity extends BaseActivity
 
         outState.putParcelableArrayList("fragments", mFragments);
         outState.putInt(INTENT_SECTION, mSelection);
+	outState.putBoolean("fetching_ads", mFetchingAds);
     }
 
     @Override

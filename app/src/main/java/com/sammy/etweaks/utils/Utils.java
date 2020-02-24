@@ -45,6 +45,8 @@ import android.view.Display;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.sammy.etweaks.BuildConfig;
 import com.sammy.etweaks.R;
 import com.sammy.etweaks.activities.StartActivity;
@@ -93,6 +95,11 @@ public class Utils {
         });
 
         alert.show();
+    }
+
+    public static boolean isGooglePlayServicesAvailable(Context context) {
+        return GoogleApiAvailability.getInstance()
+                .isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS;
     }
 
     public static void startService(Context context, Intent intent) {

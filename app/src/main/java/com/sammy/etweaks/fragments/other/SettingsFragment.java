@@ -76,6 +76,7 @@ import java.util.List;
 public class SettingsFragment extends PreferenceFragmentCompat implements
         Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
 
+    private static final String KEY_AD_VIEW = "adview";
     private static final String KEY_RESET_DATA = "reset_data";
     private static final String KEY_UPDATE_NOTIFICATION = "app_update_notif";
     private static final String KEY_CHECK_UPDATE = "check_update";

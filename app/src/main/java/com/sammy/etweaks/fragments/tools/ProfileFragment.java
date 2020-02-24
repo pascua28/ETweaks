@@ -572,4 +572,9 @@ public class ProfileFragment extends RecyclerViewFragment {
             return rootView;
         }
     }
+
+    @Override
+    protected boolean showAd() {
+        return true;
+    }
 }

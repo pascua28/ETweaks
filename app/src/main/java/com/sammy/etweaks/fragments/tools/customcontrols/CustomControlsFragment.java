@@ -1,4 +1,4 @@
-/*
+	/*
  * Copyright (C) 2015-2016 Willi Ye <williye97@gmail.com>
  *
  * This file is part of Kernel Adiutor.
@@ -458,5 +458,10 @@ public class CustomControlsFragment extends RecyclerViewFragment {
             mImportingThread.cancel(true);
             mImportingThread = null;
         }
+    }
+
+    @Override
+    protected boolean showAd() {
+        return true;
     }
 }

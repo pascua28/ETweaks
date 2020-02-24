@@ -69,7 +69,15 @@ import com.sammy.etweaks.utils.kernel.wake.Wake;
 import com.sammy.etweaks.utils.kernel.boefflawakelock.BoefflaWakelock;
 import com.sammy.etweaks.utils.root.RootUtils;
 
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.security.ProviderInstaller;
+
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.*;
 
 /**
  * Created by willi on 14.04.16.
@@ -426,8 +434,49 @@ public class MainActivity extends BaseActivity {
                 return;
             }
 
-            activity.launch();
+            // Initialize Google Ads
+            MobileAds.initialize(activity, "ca-app-pub-9127950927944515/4635688668");
+
+            // Execute another AsyncTask for license checking
+            new LoadingTask(activity).execute();
         }
+
     }
 
+    private static class LoadingTask extends AsyncTask<Void, Void, Boolean> {
+        private WeakReference<MainActivity> mRefActivity;
+
+        private boolean mInternetAvailable;
+
+        private LoadingTask(MainActivity activity) {
+            mRefActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            MainActivity activity = mRefActivity.get();
+            if (activity == null) return false;
+                try {
+                        HttpURLConnection urlConnection = (HttpURLConnection) new URL("https://www.google.com").openConnection();
+                        urlConnection.setRequestProperty("User-Agent", "Test");
+                        urlConnection.setRequestProperty("Connection", "close");
+                        urlConnection.setConnectTimeout(3000);
+                        urlConnection.connect();
+                        mInternetAvailable = urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK;
+                } catch (IOException ignored) {
+                }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean cVoid) {
+            super.onPostExecute(cVoid);
+
+            MainActivity activity = mRefActivity.get();
+            if (activity == null) return;
+
+            activity.launch();
+
+        }
+    }
 }
