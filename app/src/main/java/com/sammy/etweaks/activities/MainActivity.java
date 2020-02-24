@@ -34,6 +34,7 @@ import com.sammy.etweaks.fragments.kernel.BusCamFragment;
 import com.sammy.etweaks.fragments.kernel.BusDispFragment;
 import com.sammy.etweaks.fragments.kernel.BusIntFragment;
 import com.sammy.etweaks.fragments.kernel.BusMifFragment;
+import com.sammy.etweaks.utils.kernel.cpuvoltage.Voltage;
 import com.sammy.etweaks.fragments.kernel.CPUVoltageCl0Fragment;
 import com.sammy.etweaks.fragments.kernel.CPUVoltageCl1Fragment;
 import com.sammy.etweaks.fragments.kernel.GPUFragment;
@@ -372,6 +373,7 @@ public class MainActivity extends BaseActivity {
             Vibration.getInstance();
             VoltageCl0.supported();
             VoltageCl1.supported();
+            Voltage.getInstance();
             Wake.supported();
 
         }

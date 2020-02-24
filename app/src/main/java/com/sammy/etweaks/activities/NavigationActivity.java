@@ -52,6 +52,7 @@ import com.sammy.etweaks.fragments.kernel.BusCamFragment;
 import com.sammy.etweaks.fragments.kernel.BusDispFragment;
 import com.sammy.etweaks.fragments.kernel.BusIntFragment;
 import com.sammy.etweaks.fragments.kernel.BusMifFragment;
+import com.sammy.etweaks.fragments.kernel.CPUVoltageFragment;
 import com.sammy.etweaks.fragments.kernel.CPUVoltageCl1Fragment;
 import com.sammy.etweaks.fragments.kernel.CPUFragment;
 import com.sammy.etweaks.fragments.kernel.CPUHotplugFragment;
@@ -101,6 +102,7 @@ import com.sammy.etweaks.utils.kernel.bus.VoltageDisp;
 import com.sammy.etweaks.utils.kernel.bus.VoltageInt;
 import com.sammy.etweaks.utils.kernel.bus.VoltageMif;
 import com.sammy.etweaks.utils.kernel.cpuhotplug.Hotplug;
+import com.sammy.etweaks.utils.kernel.cpuvoltage.Voltage;
 import com.sammy.etweaks.utils.kernel.cpuvoltage.VoltageCl0;
 import com.sammy.etweaks.utils.kernel.cpuvoltage.VoltageCl1;
 import com.sammy.etweaks.utils.kernel.entropy.Entropy;
@@ -204,6 +206,9 @@ public class NavigationActivity extends BaseActivity
         mFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu, CPUFragment.class, R.drawable.ic_cpu));
         if (Hotplug.supported()) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu_hotplug, CPUHotplugFragment.class, R.drawable.ic_switch));
+        }
+        if (Voltage.getInstance().supported()) {
+            mFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu_voltage, CPUVoltageFragment.class, R.drawable.ic_bolt));
         }
         if (Hmp.getInstance().supported()) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.hmp, HmpFragment.class, R.drawable.ic_cpu));

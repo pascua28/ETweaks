@@ -38,6 +38,7 @@ import com.sammy.etweaks.fragments.kernel.BusIntFragment;
 import com.sammy.etweaks.fragments.kernel.BusMifFragment;
 import com.sammy.etweaks.fragments.kernel.CPUFragment;
 import com.sammy.etweaks.fragments.kernel.CPUHotplugFragment;
+import com.sammy.etweaks.fragments.kernel.CPUVoltageFragment;
 import com.sammy.etweaks.fragments.kernel.CPUVoltageCl0Fragment;
 import com.sammy.etweaks.fragments.kernel.CPUVoltageCl1Fragment;
 import com.sammy.etweaks.fragments.kernel.EntropyFragment;
@@ -69,6 +70,7 @@ public class ApplyOnBootFragment extends BaseFragment {
     private static final String INTENT_CATEGORY = PACKAGE + ".INTENT.CATEGORY";
 
     public static final String CPU = "cpu_onboot";
+    public static final String CPU_VOLTAGE = "cpuvoltage_onboot";
     public static final String CPU_CL0_VOLTAGE = "cpucl0voltage_onboot";
     public static final String CPU_CL1_VOLTAGE = "cpucl1voltage_onboot";
     public static final String CPU_HOTPLUG = "cpuhotplug_onboot";
@@ -98,6 +100,7 @@ public class ApplyOnBootFragment extends BaseFragment {
 
     static {
         sAssignments.put(CPUFragment.class, CPU);
+        sAssignments.put(CPUVoltageFragment.class, CPU_VOLTAGE);
         sAssignments.put(CPUVoltageCl0Fragment.class, CPU_CL0_VOLTAGE);
         sAssignments.put(CPUVoltageCl1Fragment.class, CPU_CL1_VOLTAGE);
         sAssignments.put(CPUHotplugFragment.class, CPU_HOTPLUG);
